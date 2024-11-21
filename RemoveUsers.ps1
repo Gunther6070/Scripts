@@ -11,9 +11,20 @@ foreach($user in $users) {
 
     switch($Choice)
     {
-        0 { Write-Host "Yes - Write your code"}
-        1 { Write-Host "No - Write your code"}
-        2 { Write-Host "Cancel - Write your code"}
+        0 { 
+            $Title = "Are you sure?"
+            $Choice = $host.UI.PromptForChoice($Title, $Prompt, $Choices, $Default)
+            switch ($Choice) {
+                0 {
+                    Remove-LocalUser -Name $user
+                }
+                1 { break }
+                2 { exit }
+            }
+    
+        }
+        1 { break }
+        2 { exit }
     }
     
     
