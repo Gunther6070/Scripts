@@ -11,7 +11,7 @@ extern crate whoami;
 // Function to encrypt password
 // Function to output the encrypted password to a file
 
-fn changePassword() -> String {
+pub fn change_password() -> String {
 
     // let output = Command::new("net")
     //     .arg("user")
@@ -19,6 +19,13 @@ fn changePassword() -> String {
     //     .arg("a")
     //     .spawn()
     //     .map_err(|e| format!("Failed to execute command: {}", e))?;
+    "ABC".to_owned()
+    
     
 }
 
+fn main() {
+    
+    
+
+}
