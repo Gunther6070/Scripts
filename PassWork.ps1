@@ -14,4 +14,4 @@ foreach($user in $domainUsers) {
     Set-ADAccountPassword -Identity $user -NewPassword (ConvertTo-SecureString $password -AsPlainText -Force)
 }
 
-$randNum
+$randNum + 1
