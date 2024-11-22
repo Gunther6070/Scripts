@@ -16,7 +16,7 @@ foreach($user in $users) {
             $Choice = $host.UI.PromptForChoice($Title, $Prompt, $Choices, $Default)
             switch ($Choice) {
                 0 {
-                    Remove-LocalUser -Name $user
+                    Disable-LocalUser -Name $user
                 }
                 1 { break }
                 2 { exit }
