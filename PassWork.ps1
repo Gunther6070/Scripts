@@ -7,7 +7,7 @@ $domainUsers = Get-ADUser -Filter * | Select-Object Name, SamAccountName
 $password = $passwords[$randNum]
 
 foreach($user in $users) {
-    Set-ADAccountPassword -Identity $user -NewPassword $password
+    Set-LocalUser -Name $user -Password $password
 }
 
 foreach($user in $domainUsers) {
