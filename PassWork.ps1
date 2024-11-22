@@ -1,54 +1,17 @@
 
-function GeneratePassword {
+$passwords = @("W9fpaajW", "yFs6mMcT", "jFA9sxpp", "RmvD1z6f", "8UADjeUy", "EvIKiw4k", "8stTQoMx", "qV0qRwrY", "Y6yIZ1N7", "ZKZ31ndr", "yc7NEDyM", "o3k22VRB", "32tQvbIb", "VNz84bFV", "v0A0l4Pf", "rF7f5z2l", "OzYj7NvD", "O79OyroU", "CS2wAPqo", "GifZ92YM", "iO2ClVz9", "wm9VJr9B", "2ZYbI24F", "oH2tEhOM", "pp9vdpYH", "HlhdSOs3", "Z7qUs81I", "H3C2quKA", "nQ67EkBZ", "J1Om6Zfi", "3fLJjYyG", "A6yYyi0O", "Y5IpEZcS", "fHyvTD54", "swYb11aG", "d7f2X04V", "IagVlC51", "35XJQ0Kv", "8pirEvPy", "ENP3nr6r")
+$randNum = Get-Random -Maximum 40
+$users = Get-LocalUser
+$domainUsers = Get-ADUser -Filter * | Select-Object Name, SamAccountName
 
-    $charArray = [char[]]('a'[0]..'z'[0])
+$password = $passwords[$randNum]
 
-    $password = -join (1..9 | ForEach-Object { $charArray | Get-Random })
-    return $password
+foreach($user in $users) {
+    Set-ADAccountPassword -Identity $user -NewPassword $password
 }
 
-function Encrypt {
-    $key = [System.Text.Encoding]::UTF8.GetBytes("5748465926501746")  # 16-byte key
-    $iv = [System.Text.Encoding]::UTF8.GetBytes("7685729104856472")   # 16-byte IV
-
-    $plainText = "MySecretPassword"
-    $plainBytes = [System.Text.Encoding]::UTF8.GetBytes($plainText)
-
-    # Create AES encryptor
-    $aes = [System.Security.Cryptography.Aes]::Create()
-    $aes.Key = $key
-    $aes.IV = $iv
-    $encryptor = $aes.CreateEncryptor()
-
-    # Perform encryption
-    $encryptedBytes = $encryptor.TransformFinalBlock($plainBytes, 0, $plainBytes.Length)
-    $encryptedString = [Convert]::ToBase64String($encryptedBytes)
-
-    Write-Output "Encrypted String: $encryptedString"
-
+foreach($user in $domainUsers) {
+    Set-ADAccountPassword -Identity $user -NewPassword $password
 }
 
-function Decrypt {
-    # Encrypted string to decrypt
-    $encryptedString = "Ovj1dONK1cWmS0g0lwQD48C0c3Ln+V4BrZ+0b5VP1d0="
-    $encryptedBytes = [Convert]::FromBase64String($encryptedString)
-
-    $key = [System.Text.Encoding]::UTF8.GetBytes("5748465926501746")  # 16-byte key
-    $iv = [System.Text.Encoding]::UTF8.GetBytes("7685729104856472")   # 16-byte IV
-
-    # Create AES decryptor
-    $aes = [System.Security.Cryptography.Aes]::Create()
-    $aes.Key = $key
-    $aes.IV = $iv
-    $decryptor = $aes.CreateDecryptor()
-
-    # Perform decryption
-    $decryptedBytes = $decryptor.TransformFinalBlock($encryptedBytes, 0, $encryptedBytes.Length)
-    $decryptedString = [System.Text.Encoding]::UTF8.GetString($decryptedBytes)
-
-    Write-Output "Decrypted String: $decryptedString"
-    
-}
-
-
-Encrypt
+$randNum
